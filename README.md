@@ -11,6 +11,8 @@ Some problems that can be solved with this method are:
 - forward/inverse integro-differential equations
 - fPINN: forward/inverse fractional PDEs
 
+In the folder [examples](examples/) you can find how to use the library, along with the code related to the numerical results presented [here](report.pdf)
+
 The library supports five tensor libraries as backends: TensorFlow 1.x, TensorFlow 2.x, PyTorch, JAX, and PaddlePaddle. 
 
 While the Random Feature Method is supported only by Tensorflow 2.x
