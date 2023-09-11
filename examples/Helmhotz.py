@@ -36,4 +36,4 @@ model.compile("L-BFGS", lr=0.001, metrics=["l2 relative error"], loss_weights=1)
 
 losshistory, train_state = model.train(iterations=50000)
 
-dde.saveplot(losshistory, train_state, issave=True, isplot=True)
+dde.saveplot(losshistory, train_state, issave=False, isplot=True)
