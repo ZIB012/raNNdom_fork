@@ -7,7 +7,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class random_FNN(NN):
-    """Random fully-connected neural network."""
+    """Random fully-connected neural network.
+    
+        Args:
+            layer_sizes: A list that defines the architecture of the neural network.
+                layer_sizes[i] is an int value that defines the size of the i_th layer
+
+            activation: A list that defines the activation function for each hidden layer
+                and for the output layer. 
+                activation[i] == 'random_sin' or 'random_tanh' defines a layer where the
+                    weights and biases are uniformly sampled and the layer training is freezed
+
+            kernel_initializer: initializer for the weights and biases of the layers
+
+            Rm, b: defines the sampling domain of the uniform distribution of the weights
+                and biases in the random layers
+    """
 
     def __init__(
         self,
@@ -35,7 +50,7 @@ class random_FNN(NN):
         # iteration over the list layer_sizes
         for j, units in enumerate(layer_sizes[1:-1]):
 
-            if activation[j] == 'random_sin' or activation[j] == 'random_tanh':
+            if activation[j] == 'random_sin' or activation[j] == 'random_tanh': # random layer 
                 free = False
                 init = tf.keras.initializers.RandomUniform(minval=-Rm, maxval=Rm)
                 bias = tf.keras.initializers.RandomUniform(minval=-b, maxval=b)
@@ -82,7 +97,29 @@ class random_FNN(NN):
 
 
 class partition_random_FNN(NN):
-    """Partitioned random fully-connected neural network."""
+    """Partitioned random fully-connected neural network. 
+        It defines ''npart'' random_FNN networks, and they are pieced together to 
+            implement the partition of unity method in the __call__() function.
+    
+        Args:
+            layer_sizes: A list that defines the architecture of the neural network.
+                layer_sizes[i] is an int value that defines the size of the i_th layer
+
+            activation: A list that defines the activation function for each hidden layer
+                and for the output layer. 
+                activation[i] == 'random_sin' or 'random_tanh' defines a layer where the
+                    weights and biases are uniformly sampled and the layer training is freezed
+
+            kernel_initializer: initializer for the weights and biases of the layers
+
+            npart: number of partitions considered
+
+            nn_ind: partition of unity functions previously computed (use deepxde.nn.pou_indicators(geom, npart))
+
+            Rm, b: defines the sampling domain of the uniform distribution of the weights
+                and biases in the random layers
+                
+    """
 
     def __init__(
         self,
@@ -115,7 +152,7 @@ class partition_random_FNN(NN):
         res = 0
         for i in range(self.npart):
             y = inputs
-            indicator = self.nn_ind[i](x)
+            indicator = self.nn_ind[i](x)    # PoU function of the i_th partition
 
             if self._input_transform is not None:
                 y = self._input_transform(y)
