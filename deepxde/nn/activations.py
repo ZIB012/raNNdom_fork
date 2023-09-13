@@ -58,8 +58,8 @@ def get(identifier):
             "swish": bkd.silu,
             "tanh": bkd.tanh,
             "linear": linear,
-            "random_sin": bkd.sin,
-            "random_tanh": bkd.tanh,
+            "random_sin": bkd.sin,   # sin activation that activates a Random Feature layer in random_FNN
+            "random_tanh": bkd.tanh, # tanh activation that activates a Random Feature layer in random_FNN
         }[identifier]
     if callable(identifier):
         return identifier
